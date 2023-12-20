@@ -1,12 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DapperSampleNorthWind.Models.Contracts;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DapperSampleNorthWind.Controllers
 {
     public class ProductController : Controller
     {
-        public IActionResult Index()
+        private readonly IProductRepository _ctx;
+
+        public ProductController (IProductRepository ctx )
         {
-            return View();
+            this._ctx = ctx;
+
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var result = await _ctx.GetAllAsync();
+            return View( result );
+
         }
 
     }

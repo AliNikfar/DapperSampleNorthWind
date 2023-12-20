@@ -10,15 +10,13 @@ namespace DapperSampleNorthWind.Models.Implements
     public class ProductRepository : IProductRepository
     {
         private readonly IConfiguration _config;
-        private readonly IDbConnection _dbConnection;
-        public ProductRepository(IConfiguration config, IDbConnection dbConnection)
+        private readonly DapperContext _context;
+        public ProductRepository( DapperContext context)
         {
-            _config = config;
-            _dbConnection = dbConnection;
+            _context = context;
         }
         public async Task<IEnumerable<ProductViewModel>> GetAllAsync()
         {
-
 
             var query = @"select prod.ProductID,prod.ProductName,prod.SupplierID,prod.CategoryID,
                           prod.QuantityPerUnit,prod.UnitPrice,cat.CategoryName , sup.CompanyName from
@@ -27,7 +25,14 @@ namespace DapperSampleNorthWind.Models.Implements
                           Suppliers sup on prod.SupplierID = sup.SupplierID
                             ";
 
-                return  await _dbConnection.QueryAsync<ProductViewModel>(query);
+                using  (var connection = _context.CreateConnection())
+                {
+
+                var result = await connection.QueryAsync<ProductViewModel>(query);
+                return result;
+
+
+                }
                 
 
 

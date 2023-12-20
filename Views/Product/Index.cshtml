@@ -1,0 +1,47 @@
+﻿@model IEnumerable<DapperSampleNorthWind.Models.ProductViewModel>
+@{
+    ViewData["Title"] = "Product List";
+}
+<div>
+    Product List
+    <div>
+        <table>
+
+            <thead>
+                <td>
+                  <td>ProductID</td>
+                  <td>ProductName</td>
+                  <td>SupplierID</td>
+                  <td>CategoryID</td>
+                  <td>QuantityPerUnit</td>
+                  <td>UnitPrice</td>
+                  <td>CategoryName</td>
+                  <td>CompanyName</td>
+                  <td></td>
+               </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model)
+                {
+                <tr>
+                  <td>@item.ProductID</td>
+                  <td>@item.ProductName</td>
+                  <td>@item.SupplierID</td>
+                  <td>@item.CategoryID</td>
+                  <td>@item.QuantityPerUnit</td>
+                  <td>@item.UnitPrice</td>
+                  <td>@item.CategoryName</td>
+                  <td>@item.CompanyName</td>
+                  <td></td>
+                </tr>
+                    
+
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+

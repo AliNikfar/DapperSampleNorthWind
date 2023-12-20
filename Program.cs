@@ -1,10 +1,14 @@
 using DapperSampleNorthWind.Models;
+using DapperSampleNorthWind.Models.Contracts;
+using DapperSampleNorthWind.Models.Implements;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddSingleton<DapperContext>();
+builder.Services.AddScoped<DapperContext>();
+builder.Services.AddScoped(typeof(IProductRepository),typeof(ProductRepository));
+
 
 var app = builder.Build();
 
@@ -25,6 +29,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Product}/{action=Index}/{id?}");
 
 app.Run();
