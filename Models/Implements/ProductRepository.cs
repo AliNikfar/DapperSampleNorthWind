@@ -9,7 +9,6 @@ namespace DapperSampleNorthWind.Models.Implements
 {
     public class ProductRepository : IProductRepository
     {
-        private readonly IConfiguration _config;
         private readonly DapperContext _context;
         public ProductRepository( DapperContext context)
         {
