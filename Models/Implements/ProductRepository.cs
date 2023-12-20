@@ -19,11 +19,10 @@ namespace DapperSampleNorthWind.Models.Implements
         {
 
             var query = @"select prod.ProductID,prod.ProductName,prod.SupplierID,prod.CategoryID,
-                          prod.QuantityPerUnit,prod.UnitPrice,cat.CategoryName , sup.CompanyName from
-                          Products prod  join 
-                          Categories cat on Prod.CategoryID = cat.CategoryID join 
-                          Suppliers sup on prod.SupplierID = sup.SupplierID
-                            ";
+                            prod.QuantityPerUnit,prod.UnitPrice,cat.CategoryName , sup.CompanyName from
+                            Products prod  join 
+                            Categories cat on Prod.CategoryID = cat.CategoryID join 
+                            Suppliers sup on prod.SupplierID = sup.SupplierID ";
 
                 using  (var connection = _context.CreateConnection())
                 {
