@@ -1,0 +1,45 @@
+﻿@model ProductViewModel
+@*@{
+    @ViewDate["Title"] = "Create New Project";
+}*@
+<div class="card" style"with:90%">
+    <div class="card-header"> Product Info </div>
+    <div class="card-body">
+        <form asp-action="create">
+            <div class = "form-row">
+                <div class="form-group col-md-6">
+                    <label> Product Name :</label>
+                    <input asp-for="ProductName" class="form-control" />
+                </div>
+                 <div class="form-group col-md-6">
+                    <label> Unit Price :</label>
+                    <input asp-for="UnitPrice" class="form-control" />
+                </div>
+                
+            </div>
+                <div class = "form-row">
+                <div class="form-group col-md-6">
+                    <label> Category :</label>
+                    <select class="form-control" asp-for="CategoryID"
+                    asp-items= "@(new SelectList(ViewBag.Categories,"CategoryId","CategoryName"))">
+                    <option> select category</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label> Category :</label>
+                    <select class="form-control" asp-for="SupplierID"
+                    asp-items= "@(new SelectList(ViewBag.Suppliers,"SupplierId","CompanyName"))">
+                    <option> select supplier </option>
+                    </select>
+                </div>
+                
+            </div>
+                 <div class="form-row">
+                  <div class="form-group col-md-6">
+                       <button type="submit" class="btn btn-success mb-2"> Save</button>
+                   </div>
+                 </div>
+        </form>
+
+    </div>
+</div>

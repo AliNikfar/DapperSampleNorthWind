@@ -14,6 +14,9 @@ namespace DapperSampleNorthWind.Models.Implements
         {
             _context = context;
         }
+
+
+
         public async Task<IEnumerable<ProductViewModel>> GetAllAsync()
         {
 
@@ -27,15 +30,33 @@ namespace DapperSampleNorthWind.Models.Implements
                 {
 
                 var result = await connection.QueryAsync<ProductViewModel>(query);
-                return result;
+                return result.ToList();
 
 
                 }
-                
 
+        }
 
+        public async Task InsertAsync(ProductViewModel model)
+        {
+            var query = @"insert Products (ProductName,SupplierID,CategoryID,UnitPrice) " +
+                "values (@ProductName,@SupplierID,@CategoryID,@UnitPrice) ";
+            using (var connection = _context.CreateConnection())
+            {
+                await connection.ExecuteAsync(query,model);
+            }
 
 
         }
+        public async Task InsertWithSPAsync(ProductViewModel model)
+        {
+            var query = @"sp_products_Insert";
+            using (var connection = _context.CreateConnection())
+            {
+                await connection.ExecuteAsync(query,new { ProductName = model.ProductName, SupplierID=model.SupplierID,
+                CategoryID = model.CategoryID ,UnitPrice = model.UnitPrice},commandType:CommandType.StoredProcedure);
+            }
+        }
+
     }
 }
