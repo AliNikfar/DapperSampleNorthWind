@@ -37,11 +37,35 @@ namespace DapperSampleNorthWind.Controllers
             //await _Productctx.InsertAsync(model);
 
             //implement with StoreProcedure
-            await _Productctx.InsertWithSPAsync(model);
+            //await _Productctx.InsertWithSPAsync(model);
+
+            //implement with StoreProcedure With Returns Id
+            await _Productctx.InsertWithSPReturnsValue(model);
 
             return RedirectToAction(nameof(Index));
 
         }
+
+
+        public async Task<IActionResult> Edit(int id)
+        {
+
+            ViewBag.Categories = await _Categoryctx.GetCategoryForComboAsync();
+            ViewBag.Suppliers = await _Supplierctx.GetSupplierForComboAsync();
+            var product = await _Productctx.GetByIdAsync(id);
+            return View(product);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(ProductViewModel model)
+        {
+            await _Productctx.UpdateAsync(model);
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
 
     }
 }
