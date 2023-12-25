@@ -1,6 +1,10 @@
 ﻿using DapperSampleNorthWind.Models;
 using DapperSampleNorthWind.Models.Contracts;
+using ExcelDataReader;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+
 
 namespace DapperSampleNorthWind.Controllers
 {
@@ -43,8 +47,8 @@ namespace DapperSampleNorthWind.Controllers
             await _Productctx.InsertWithSPReturnsValue(model);
 
             return RedirectToAction(nameof(Index));
-
         }
+
 
 
         public async Task<IActionResult> Edit(int id)
@@ -69,6 +73,56 @@ namespace DapperSampleNorthWind.Controllers
             await _Productctx.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
 
+        }
+
+        public async Task<IActionResult> GotoBulk()
+        {
+            return View(nameof(BulkInsert));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> BulkInsert(IFormFile excelFile)
+        {
+            // First Add Package  'dotnet add package ExcelDataReader' 
+            // then using MemoryStream to read Excel data
+
+            var formFile = HttpContext.Request.Form.Files[0];
+            var aa = HttpContext;
+            List<ProductViewModel> products = new List<ProductViewModel>();
+
+            using (var ms = new MemoryStream())
+            {
+                excelFile.CopyTo(ms);
+                bool firstRow = true;
+
+                using (var reader = ExcelReaderFactory.CreateReader(ms))
+                {
+                    do
+                    {
+                        while (reader.Read())
+                        {
+                            if (firstRow)// Breakes First Row
+                            {
+                                firstRow = false;
+                                continue;
+
+                            }
+                            var product = new ProductViewModel()
+                            {
+                                ProductName = reader[0].ToString(),
+                                CategoryID = Convert.ToInt32(reader[1]),
+                                SupplierID = Convert.ToInt32(reader[2]),
+                                UnitPrice = Convert.ToDouble(reader[3]),
+                            };
+                            products.Add(product);
+                        }
+                        
+                    } 
+                    while(reader.NextResult());
+                }
+
+            }
+            return View(nameof(Index));
         }
 
 
