@@ -9,5 +9,6 @@ namespace DapperSampleNorthWind.Models.Contracts
         public Task<int> InsertWithSPReturnsValue(ProductViewModel model);
         public Task UpdateAsync(ProductViewModel model);
         public Task<ProductViewModel> GetByIdAsync(int id);
+        public Task DeleteAsync (int id);
     }
 }

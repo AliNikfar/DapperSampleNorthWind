@@ -37,7 +37,7 @@
                   <td>@item.CompanyName</td>
                   <td>
                       <a asp-action="edit" asp-route-id = "@item.ProductID" class="btn btn-warning btn-sm" >Edit </a>
-                      <a  href="/Product/Delete/@item.ProductID" class="btn btn-warning btn-sm" >Delete </a>
+                      <a asp-action="delete" asp-route-id="@item.ProductID" class="btn btn-danger btn-sm"  onclick="return confirm(' are you sure remove item')">Delete </a>
                       </td>
                 </tr>
                     

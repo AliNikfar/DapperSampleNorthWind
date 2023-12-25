@@ -15,7 +15,17 @@ namespace DapperSampleNorthWind.Models.Implements
             _context = context;
         }
 
+        public async Task DeleteAsync(int id)
+        {
+            var query = ($@" delete  Products where ProductID = @ProductID ");
 
+            using (var connection = _context.CreateConnection())
+            {
+                 await connection.ExecuteAsync(query, new { productId = id });
+
+            }
+
+        }
 
         public async Task<IEnumerable<ProductViewModel>> GetAllAsync()
         {

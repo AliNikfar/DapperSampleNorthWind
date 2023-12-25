@@ -64,6 +64,14 @@ namespace DapperSampleNorthWind.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _Productctx.DeleteAsync(id);
+            return RedirectToAction(nameof(Index));
+
+        }
+
+
 
 
 
