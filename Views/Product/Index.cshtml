@@ -8,6 +8,25 @@
     </div>
     <div class="card-body">
         <a class="btn btn-outline-primary mb-2" asp-action="Create"> Create New Product</a>
+
+        <div class = "card">
+    <div class="card-header"> Upload Products Excel File   </div>
+    <div class="card-body" >
+        <form asp-action="BulkInsert"  enctype="multipart/form-data"  >
+            <div class="form-group" >
+                <lable> Excel File </lable>
+                <input name="excelFile" id="excelFile" type="file" accept=".xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+            </div>
+            <div class="form-group">
+                <button class="btn-primary btn-success" >
+                    Send File
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
         <table class="table table-bordered table-striped">
 
             <thead>
