@@ -1,0 +1,30 @@
+﻿@model List<OrderViewModel>
+
+    <div class="card">
+        <div class="card-header"> Order List With Dapper Dapper.Contrib</div>
+        <div class="card-body">
+            <table class="table table-stripted">
+
+                <thead>
+                    <th>Order Id</th> 
+                    <th>Customer Id</th>
+                    <th>Employee Id </th>
+                    <th>Order Date</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    @foreach(var item in Model)
+                    {
+                        <tr>
+                            <td>@item.OrderId</td>
+                            <td>@item.CustomerId</td>
+                            <td>@item.EmployeeId</td>
+                            <td>@item.OrderDate</td>
+                            <td> </td>
+                        </tr>
+                    }
+                </tbody>
+                
+            </table>
+        </div>
+    </div>

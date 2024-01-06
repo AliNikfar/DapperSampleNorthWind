@@ -133,6 +133,7 @@ namespace DapperSampleNorthWind.Controllers
             return Ok();
         }
     
+        [ActionName("ShowProductsAndCategories")]
         public async Task<IActionResult> ShowProductsAndCategories()
         {
             var result = await _Productctx.GetProductCategoryAsync();
@@ -140,7 +141,7 @@ namespace DapperSampleNorthWind.Controllers
             List<ProductViewModel> products = result.Item1;
             List<CategoryViewModel> categories = result.Item2;
             ViewData["Categories"] = categories;
-            return View(products);
+            return View("Index1",products);
         }
 
 

@@ -10,7 +10,7 @@ builder.Services.AddSingleton<DapperContext>();
 builder.Services.AddScoped(typeof(IProductRepository),typeof(ProductRepository));
 builder.Services.AddScoped(typeof(ICategoryRepository), typeof(CategoryRepository));
 builder.Services.AddScoped(typeof(ISupplierRepository), typeof(SupplierRepository));
-
+builder.Services.AddScoped(typeof(IOrderRepository), typeof(OrderRepository));
 
 var app = builder.Build();
 
