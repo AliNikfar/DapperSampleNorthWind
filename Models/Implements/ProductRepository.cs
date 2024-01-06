@@ -27,6 +27,17 @@ namespace DapperSampleNorthWind.Models.Implements
 
         }
 
+        public async Task DeleteBulkAsync(List<int> idList)
+        {
+            var query = ($@" delete  Products where ProductID in @idList  ");
+
+            using (var connection = _context.CreateConnection())
+            {
+                await connection.ExecuteAsync(query, new { idList = idList });
+
+            }
+        }
+
         public async Task<IEnumerable<ProductViewModel>> GetAllAsync()
         {
 
@@ -65,6 +76,20 @@ namespace DapperSampleNorthWind.Models.Implements
             }
         }
 
+        public async Task<(List<ProductViewModel>, List<CategoryViewModel>)> GetProductCategoryAsync()
+        {
+            var query = "select * from Products ; select * from categories";
+            using (var connection = _context.CreateConnection())
+            {
+                var result = await connection.QueryMultipleAsync(query);
+                var products = await result.ReadAsync<ProductViewModel>();
+                var categories = await result.ReadAsync<CategoryViewModel>();
+                return (products.ToList(), categories.ToList());
+            }
+            
+
+        }
+
         public async Task InsertAsync(ProductViewModel model)
         {
             var query = @"insert Products (ProductName,SupplierID,CategoryID,UnitPrice) " +
@@ -76,6 +101,19 @@ namespace DapperSampleNorthWind.Models.Implements
 
 
         }
+
+        public async Task InsertBulkAsync(List<ProductViewModel> models)
+        {
+            var query = @"insert Products (ProductName,SupplierID,CategoryID,UnitPrice) " +
+                         "values (@ProductName,@SupplierID,@CategoryID,@UnitPrice) ";
+            using (var connection = _context.CreateConnection())
+            {
+                await connection.ExecuteAsync(query, models);
+            }
+
+
+        }
+
         public async Task InsertWithSPAsync(ProductViewModel model)
         {
             var query = @"sp_products_Insert";
@@ -112,6 +150,19 @@ namespace DapperSampleNorthWind.Models.Implements
             using (var connection = _context.CreateConnection())
             {
                await  connection.ExecuteAsync(query, model);
+            }
+        }
+
+        public async Task UpdateBulkAsync(List<ProductViewModel> models)
+        {
+            var query = @"update Products  set ProductName = @ProductName ,
+                          SupplierID=@SupplierID,
+                          CategoryID=@CategoryID,
+                          UnitPrice=@UnitPrice 
+                          where ProductID = @ProductId ";
+            using (var connection = _context.CreateConnection())
+            {
+                await connection.ExecuteAsync(query, models);
             }
         }
     }

@@ -1,4 +1,24 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿function toggleAllCheckBox(el)
+{
+    if ($(el).is(':checked')) {
+        $('table tbody input[type="checkbox"]').attr('checked', 'checked');
+    }
+    else {
+        $('table tbody input[type="checkbox"]').removeAttr('checked');
+    }
 
-// Write your JavaScript code.
+}
+
+function DeleteSelectedRow() {
+    let ids = []
+    let rows = $('table tbody input[type="checkbox"]:checked');
+    rows.each(function () { ids.push($(this).attr("id")) });
+    //console.log(rows);
+    //console.log(ids);
+    $.post("/Product/BulkDelete", { ids: ids }, function () {
+        alert("remove sucsess");
+        location.reload();
+    })
+}
+
+

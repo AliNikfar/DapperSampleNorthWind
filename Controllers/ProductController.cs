@@ -86,8 +86,6 @@ namespace DapperSampleNorthWind.Controllers
             // First Add Package  'dotnet add package ExcelDataReader' 
             // then using MemoryStream to read Excel data
 
-            var formFile = HttpContext.Request.Form.Files[0];
-            var aa = HttpContext;
             List<ProductViewModel> products = new List<ProductViewModel>();
 
             using (var ms = new MemoryStream())
@@ -112,7 +110,7 @@ namespace DapperSampleNorthWind.Controllers
                                 ProductName = reader[0].ToString(),
                                 CategoryID = Convert.ToInt32(reader[1]),
                                 SupplierID = Convert.ToInt32(reader[2]),
-                                UnitPrice = Convert.ToDouble(reader[3]),
+                                UnitPrice = Convert.ToDouble(reader[3]), 
                             };
                             products.Add(product);
                         }
@@ -120,10 +118,31 @@ namespace DapperSampleNorthWind.Controllers
                     } 
                     while(reader.NextResult());
                 }
-
+                if(products.Count>0)
+                {
+                    await _Productctx.InsertBulkAsync(products);
+                }
             }
-            return View(nameof(Index));
+            return RedirectToAction(nameof(Index));
         }
+
+        [HttpPost]
+        public async Task<IActionResult> BulkDelete(int[] ids)
+        {
+            await _Productctx.DeleteBulkAsync(ids.ToList());
+            return Ok();
+        }
+    
+        public async Task<IActionResult> ShowProductsAndCategories()
+        {
+            var result = await _Productctx.GetProductCategoryAsync();
+
+            List<ProductViewModel> products = result.Item1;
+            List<CategoryViewModel> categories = result.Item2;
+            ViewData["Categories"] = categories;
+            return View(products);
+        }
+
 
 
 

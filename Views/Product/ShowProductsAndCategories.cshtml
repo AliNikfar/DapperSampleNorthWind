@@ -7,16 +7,10 @@
     Product List
     </div>
     <div class="card-body">
-        <a class="btn btn-outline-primary mb-2" asp-action="Create"> Create New Product</a>
-        <a class="btn btn-primary mb-2 " asp-action="GotoBulk" > Create Products Using Excel File </a>
-        <a class="btn btn-alert-secondary mb-2 " asp-action="ShowProductsAndCategories" > Get Prod&categ Using MultiSelect </a>
-        <button class="btn alert-danger" onclick="DeleteSelectedRow()">Delete Selected Rows</button>
-
         <table class="table table-bordered table-striped">
 
             <thead>
                 <tr>
-                  <th><input type="checkbox" onchange="toggleAllCheckBox(this)"></input></th>
                   <th>ProductID</th>                  
                   <th>ProductName</th>
                   <th>SupplierID</th>
@@ -25,14 +19,12 @@
                   <th>UnitPrice</th>
                   <th>CategoryName</th>
                   <th>CompanyName</th>
-                  <th> </th>
                </tr>
             </thead>
             <tbody>
                 @foreach(var item in Model)
                 {
                 <tr>
-                    <td><input type="checkbox" id ="@item.ProductID"></input></td>
                   <td>@item.ProductID</td>
                   <td>@item.ProductName</td>
                   <td>@item.SupplierID</td>
@@ -41,17 +33,45 @@
                   <td>@item.UnitPrice</td>
                   <td>@item.CategoryName</td>
                   <td>@item.CompanyName</td>
-                  <td>
-                      <a asp-action="edit" asp-route-id = "@item.ProductID" class="btn btn-warning btn-sm" >Edit </a>
-                      <a asp-action="delete" asp-route-id="@item.ProductID" class="btn btn-danger btn-sm"  onclick="return confirm(' are you sure remove item')">Delete </a>
-                      </td>
                 </tr>
                     
 
                 }
             </tbody>
+
         </table>
 
+
     </div>
+    <hr/>
+    <div class="card-header">
+    Category List
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-striped">
+
+            <thead>
+                <tr>
+                  <th>Category ID</th>                  
+                  <th>Category Name</th>
+               </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in ViewBag.Categories)
+                {
+                <tr>
+                  <td>@item.CategoryId</td>
+                  <td>@item.CategoryName</td>
+                </tr>
+                    
+
+                }
+            </tbody>
+
+        </table>
+
+
+    </div>
+
 
 </div>
